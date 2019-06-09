@@ -1,0 +1,138 @@
+---
+title: " Qt代码覆盖率code coverage(MinGW版)\t\t"
+url: 495.html
+id: 495
+categories:
+  - Qt
+  - 转载
+date: 2017-12-01 14:50:31
+tags:
+---
+
+最近才发现MinGW里面包含一个叫做**gcov**的工具，可以用来**检查你的程序运行时调用了哪些代码，同时显示代码行被调用的次数**。这个功能在代码的覆盖率和性能调优方便都能用上。 我的运行环境
+
+*   Windows XP
+*   MinGW(gcc 4.4.0)
+*   Qt 4.8.4
+
+第一步：编写一个可运行的Qt程序
+----------------
+
+要用到的文件：hihi.cpp, hihi.pro
+
+*   hihi.cpp
+
+class Haha
+{
+public:
+    void hihi() {
+        for (int i = 0; i < 100; i++) {
+            int j = 0;
+        }
+    }
+};
+
+int main(int argc, char *argv\[\])
+{
+    
+    Haha haha;
+    haha.hihi();
+
+    return 0;
+}
+
+*   hihi.pro
+
+SOURCES += hihi.cpp
+
+QMAKE_CXXFLAGS += --coverage
+LIBS += -lgcov
+
+hihi.cpp没什么特别的。主要看看hihi.pro.?QMAKE_CXXFLAGS += --coverage 用来告诉g++我们要做coverage。LIBS += -lgcov用来链接gcov库
+
+第二步：编译Qt程序
+----------
+
+用下面的命令编译hihi工程
+
+D:\\workspace\\cpp\\hihi>qmake
+
+D:\\workspace\\cpp\\hihi>make?release
+
+现在我们的release目录下就有三个文件了。值得注意的是hihi.gcno文件。它存储的是代码段和对应的行号。
+
+D:\\WORKSPACE\\CPP\\HIHI\\RELEASE
+
+hihi.exe
+
+hihi.gcno
+
+hihi.o
+
+第三步：运行Qt程序
+----------
+
+现在运行hihi.exe
+
+1.  D:\\workspace\\cpp\\hihi>release\\hihi.exe
+
+现在我们的release目录下就有四个文件了。比上一步多了一个hihi.gcda。它存储了hihi.exe运行过程中的一些数据。
+
+1.  D:\\WORKSPACE\\CPP\\HIHI\\RELEASE
+2.  ????hihi.exe
+3.  ????hihi.gcda
+4.  ????hihi.gcno
+5.  ????hihi.o
+
+第四步：用gcov来生成报告
+--------------
+
+运行如下gcov命令来生成报告。 -o release指的是gcov需要的数据文件hihi.gcno, hihi.gcda都在release目录下。
+
+1.  D:\\workspace\\cpp\\hihi>gcov?hihi.cpp?-o?release
+
+现在我们的hihi目录下有如下文件。我们要关心的是hihi.cpp.gcov。这个就是hihi.cpp运行的报告文件。
+
+1.  D:\\WORKSPACE\\CPP\\HIHI
+2.  │??hihi.cpp
+3.  │??hihi.cpp.gcov
+4.  │??hihi.pro
+5.  │??Makefile
+6.  │??Makefile.Debug
+7.  │??Makefile.Release
+8.  │
+9.  ├─debug
+10.  └─release
+11.  ????????hihi.exe
+12.  ????????hihi.gcda
+13.  ????????hihi.gcno
+14.  ????????hihi.o
+
+第五步：查看报告
+--------
+
+hihi.cpp.gcov是一个文本文件，内容如下。报告一目了然，最左侧显示的是该行代码运行的次数。比如第5行for语句运行了101次。
+
+1.  ??-:????0:Source:hihi.cpp
+2.  ??-:????0:Graph:release/hihi.gcno
+3.  ??-:????0:Data:release/hihi.gcda
+4.  ??-:????0:Runs:1
+5.  ??-:????0:Programs:1
+6.  ??-:????1:class?Haha
+7.  ??-:????2:{
+8.  ??-:????3:public:
+9.  ??-:????4:????void?hihi()?{
+10.  101:????5:????????for?(int?i?=?0;?i?<?100;?i++)?{
+11.  100:????6:????????????int?j?=?0;
+12.  ??-:????7:????????}
+13.  ??-:????8:????}
+14.  ??-:????9:};
+15.  ??-:???10:
+16.  ??1:???11:int?main(int?argc,?char?*argv\[\])
+17.  ??-:???12:{
+18.  ??-:???13:
+19.  ??-:???14:????Haha?haha;
+20.  ??-:???15:????haha.hihi();
+21.  ??-:???16:
+22.  ??1:???17:????return?0;
+23.  ??-:???18:}
