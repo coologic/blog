@@ -76,11 +76,12 @@ Microsoft Windows [版本 10.0.17763.503]
 
 * > win下conda路径一般是c:\programdata\anaconda3\python.exe
 
-# 常用包使用
+# 常用包及帮助文档
 
-NumPy中文文档：[NumPy文档](https://www.numpy.org.cn/)
+NumPy用于多维矩阵运算：[NumPy中文文档](https://www.numpy.org.cn/)
 
+Pandas用于数据读写支持多种数据格式：[Pandas API Reference](http://pandas.pydata.org/pandas-docs/stable/reference/index.html)、[Pandas 中文文档](https://www.pypandas.cn/)
 
+Matplotlib用于数据可视化：[Matplotlib 中文文档](https://www.matplotlib.org.cn/)
 
-
-
+数据可视化还可选择：[10个对所有学科都有用的Python数据可视化库](https://www.cnblogs.com/huangsxj/p/8667850.html)
