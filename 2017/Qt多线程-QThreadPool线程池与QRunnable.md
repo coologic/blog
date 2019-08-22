@@ -185,3 +185,7 @@ thread start: 0xfe0
 0 0
 
 当建立局部线程池，修改其参数后仅供局部使用，不会影响全局线程池的。
+
+## 补充
+
+global_pool有可能也需要设置autodelete 以防内存溢出
