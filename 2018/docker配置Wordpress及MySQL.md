@@ -10,7 +10,7 @@ categories:
 date: 2018-11-10 13:31:18
 ---
 
-安装MySQL
+安装MySQL 
 -------
 
 docker pull mysql
@@ -75,16 +75,16 @@ http {
     log\_format  main  '$remote\_addr - $remote\_user \[$time\_local\] "$request" '
                       '$status $body\_bytes\_sent "$http_referer" '
                       '"$http\_user\_agent" "$http\_x\_forwarded_for"';
-
+    
     access_log  /var/log/nginx/access.log  main;
-
+    
     sendfile        on;
     #tcp_nopush     on;
-
+    
     keepalive_timeout  65;
-
+    
     #gzip  on;
-
+    
     include /etc/nginx/conf.d/*.conf;
 }
 
