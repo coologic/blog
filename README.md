@@ -14,7 +14,7 @@
 ## `www.coologic.cn`说明
 个人博客域名[coologic博客](https://www.coologic.cn/)
 
-## `techieliang.github.io`说明
+## `coologic.github.io`说明
 此仓库存放gitpage博客站，更新相对滞后
 
 ## `MyBlogPictureBackup`说明
